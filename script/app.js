@@ -1,4 +1,6 @@
 //weather script
+const notFoundCode = '404';
+
 let weather = {
     "apiKey": "079b8873b6337dec6ec9bd818da65a4f",
     fetchWeather: function (city) {
@@ -9,6 +11,12 @@ let weather = {
             .then((data) => this.displayWeather(data));
     },
     displayWeather: function (data) {
+        if (data.cod === notFoundCode) {
+            alert(data.message);
+
+            return "";
+        }
+
         const { name } = data;
         const { icon, description } = data.weather[0];
         const { temp, humidity } = data.main;
@@ -39,6 +47,8 @@ searchBar.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
         if (searchBar.value) {
             weather.search();
+        } else {
+            alert('Please input city.');
         }
     }
 })
