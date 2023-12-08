@@ -36,9 +36,12 @@ searchButton.addEventListener("click", function () {
 });
 
 searchBar.addEventListener("keyup", function (event) {
-    event.key === 'Enter' && searchBar.value ? weather.search() : alert('Please input City.');
-});
-
+    if (event.key === "Enter") {
+        if (searchBar.value) {
+            weather.search();
+        }
+    }
+})
 // loading my home page
 weather.fetchWeather("Tokyo");
 
