@@ -51,7 +51,8 @@ searchBar.addEventListener("keyup", function (event) {
             alert('Please input city.');
         }
     }
-})
+});
+
 // loading my home page
 weather.fetchWeather("Tokyo");
 
