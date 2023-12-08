@@ -28,15 +28,17 @@ let weather = {
     }
 };
 // Pressing enter function
-document.querySelector(".search button").addEventListener("click", function () {
-    weather.search();
+const searchBar = document.querySelector(".search-bar");
+const searchButton = document.querySelector(".search button");
+
+searchButton.addEventListener("click", function () {
+    searchBar.value ? weather.search() : alert('Please input City');
 });
 
-document.querySelector(".search-bar").addEventListener("keyup", function (event) {
-    if (event.key == "Enter") {
-        weather.search();
-    }
-})
+searchBar.addEventListener("keyup", function (event) {
+    event.key === 'Enter' && searchBar.value ? weather.search() : alert('Please input City.');
+});
+
 // loading my home page
 weather.fetchWeather("Tokyo");
 
