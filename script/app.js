@@ -1,4 +1,5 @@
 //weather script
+let lat, lon;
 const notFoundCode = '404';
 
 let weather = {
@@ -21,6 +22,8 @@ let weather = {
         const { icon, description } = data.weather[0];
         const { temp, humidity } = data.main;
         const { speed } = data.wind;
+        lat = data.coord.lat;
+        lon = data.coord.lon;
         document.querySelector(".city").innerText = "Weather in " + name;
         document.querySelector(".icon").src =
             "https://openweathermap.org/img/wn/" + icon + "@2x.png";
@@ -29,7 +32,7 @@ let weather = {
         document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
         document.querySelector(".wind").innerText = "Wind Speed: " + speed + "km/h";
         document.querySelector(".weather").classList.remove("loading");
-        document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" + name + "')"
+        document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" + name + description + "')"
     },
     search: function () {
         this.fetchWeather(document.querySelector(".search-bar").value);
@@ -54,11 +57,11 @@ searchBar.addEventListener("keyup", function (event) {
 });
 
 // loading my home page
-weather.fetchWeather("Tokyo");
-
+fetch('http://ip-api.com/json/?fields=city')
+    .then((response) => response.json())
+    .then((data) => weather.fetchWeather(data.city));
 
 //GEOMAPPING...
-
 var map = L.map('map').setView([36.2048, 138.2529], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
@@ -66,6 +69,3 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 var marker = L.marker([36.2048, 138.2529])
     .addTo(map);
-
-
-//END GEOMAP...
